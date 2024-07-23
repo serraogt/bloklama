@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    requestIsleniyor: false
+    requestIsleniyor: false,
+    time: 5
 };
 
 export const mockSlice = createSlice({
@@ -11,8 +12,11 @@ export const mockSlice = createSlice({
         process: (state) => {
             state.requestIsleniyor = !state.requestIsleniyor;
         },
+        setTime: (state, action ) => {
+            state.time = action.payload;
+        }
     }
 });
 
-export const { process } = mockSlice.actions;
+export const { process , setTime} = mockSlice.actions;
 export default mockSlice.reducer;
