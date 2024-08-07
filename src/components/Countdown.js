@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react'
-import { process, setTime } from '../features/mockFeature/mockSlice';
+import { process, setFalse, setTime, setTrue } from '../features/mockFeature/mockSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -10,8 +10,10 @@ const Countdown = () => {
 
     const dispatch = useDispatch();
     const time = useSelector((state) => state.mock.time)
+    const status = useSelector((state) => state.mock.requestIsleniyor)
 
     useEffect(() => {
+      dispatch(setTrue())
         console.log("saniye: ", time);
         if (time > 0) {
           const timer = setTimeout(() => {
@@ -20,12 +22,13 @@ const Countdown = () => {
           return () => clearTimeout(timer);
         } else if (time === 0){
             console.log("süre bitti");
-            dispatch(process())
+            dispatch(setFalse())
+        
         }
       }, [time]);
 
       const reset = () => {
-        dispatch(setTime(Number(5)));
+        dispatch(setTime(Number(0)));
         dispatch(process())
       }
       

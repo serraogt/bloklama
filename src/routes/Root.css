@@ -1,0 +1,26 @@
+/* Root.css */
+.nav-link {
+    text-decoration: none;
+    color: black;
+    padding: 5px;
+    display: block;
+  }
+  
+  /* Custom CSS for active NavLink */
+  .nav-link.active-link {
+    font-weight: bold;
+    color: white !important;
+    background: radial-gradient(ellipse at top left, #50e4cb, #4c05d0)  !important;
+  }
+  
+  /* Adding hover effect for all nav links */
+  .nav-link:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Adding a darker hover effect for the active nav link */
+  .nav-link.active-link:hover {
+    background: darkgray;
+    background-color: #dcdcdc; /* Darker gray color */
+  }
+  
