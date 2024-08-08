@@ -1,23 +1,20 @@
-// import { Form } from "react-router-dom";
+import { Form, useLoaderData } from "react-router-dom";
 
 /* eslint-disable no-restricted-globals */
 import { useParams } from 'react-router-dom';
+import { getContacts } from "../features/Contacts";
+
+export async function loader({params}){
+  const contact = await getContacts(params.contactId);
+  return {contact};
+}
+
 
 export default function Contact() {
 
+  const { contact} = useLoaderData();
   const { contactId } = useParams();
   
-
-  const contact = {
-    id: contactId,
-    first: "Your",
-    last: "Name",
-    avatar: "https://robohash.org/you.png?size=200x200",
-    twitter: "your_handle",
-    notes: "Some notes",
-    favorite: true,
-  
-  };
   console.log(contact.id)
 
   return (
@@ -60,10 +57,10 @@ export default function Contact() {
         {contact.notes && <p>{contact.notes}</p>}
 
         <div>
-          <form action="edit">
+          <Form action="edit">
             <button type="submit">Edit</button>
-          </form>
-          <form
+          </Form>
+          <Form
             method="post"
             action="destroy"
             onSubmit={(event) => {
@@ -77,7 +74,7 @@ export default function Contact() {
             }}
           >
             <button type="submit">Delete</button>
-          </form>
+          </Form>
         </div>
       </div>
     </div>

@@ -1,30 +1,21 @@
 // Root.js
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useLoaderData, Form, redirect } from "react-router-dom";
 import { getContacts, createContact } from "../features/Contacts";
 import { useEffect, useState } from "react";
 import "./Root.css"; // Import the CSS file
 
+
+export async function loader(){
+  const contacts = await getContacts();
+  return {contacts};
+}
 export async function action(){
   const contact = await createContact();
-  return {contact};
+  return redirect(`/contacts/${contact.id}/edit`);
 }
 
 export default function Root() {
-  const [contacts, setContacts] = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const data = await getContacts();
-        setContacts(data);
-      } catch (error) {
-        setError(error);
-      }
-    };
-
-    fetchContacts();
-  }, []);
+  const {contacts} = useLoaderData();
 
   return (
     <>
@@ -42,11 +33,10 @@ export default function Root() {
             <div id="search-spinner" aria-hidden hidden={true} />
             <div className="sr-only" aria-live="polite"></div>
           </form>
-          <form>
-          {/* <form method="post"> */}
-            {/* <button type="submit" >New</button> */}
-            <button onClick={action()}>New</button>
-          </form>
+        
+          <Form method="post">
+            <button type="submit" >New</button>
+          </Form>
         </div>
         <nav>
           <NavLink

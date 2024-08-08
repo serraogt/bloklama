@@ -5,19 +5,40 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './app/Store'; // Store path might need adjustment
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Root from './routes/Root';
-import Contact from './pages/Contact';
+import { BrowserRouter, Route, RouterProvider, Routes, createBrowserRouter } from 'react-router-dom';
+import Root, { loader, action as rootAction, loader  as rootLoader} from './routes/Root';
+import Contact, { loader as contactLoader } from './routes/Contact';
 import Mock from './features/mockFeature/Mock';
 import Blocker from './components/Blocker';
 import Use from "./components/Use";
+import EditContact, { action as editAction} from './routes/Edit';
+
+
+const router = createBrowserRouter([
+  {path: "/",
+    element: <Root />,
+    // errorElement iyi özellik
+    loader: rootLoader,
+    action: rootAction,
+    children: [
+      {path: "contacts/:contactId",
+      element: <Contact />,
+      loader: contactLoader},
+
+      {path: "contacts/:contactId/edit",
+      element: <EditContact/>,
+      loader: contactLoader,
+      action: editAction}
+    ]
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
+    <RouterProvider router={router}/>
+        {/* <Routes>
           <Route path="/" element={<Root />}>
             <Route path="contacts/:contactId" element={<Contact />} />
             <Route path="mock" element={<Mock />} />
@@ -26,7 +47,7 @@ root.render(
             <Route path="*" element={<Use />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+   */}
     </Provider>
   </React.StrictMode>
 );

@@ -27,6 +27,15 @@ export async function getContacts(query) {
     return contacts.sort(sortBy("last", "createdAt"));
 }
 
+export async function updateContact(id, updates){
+    await fakeNetwork();
+    let contacts = await localforage.getItem("contacts");
+    let contact = contacts.find(contact => contact.id === id); 
+    if (!contact) throw new Error("No contact found for", id);
+    Object.assign(contact, updates);
+    await set(contacts);
+    return contact;
+} //burada kaldım
 
 let fakeCache = {}
 
